@@ -132,6 +132,7 @@ const WordSelector = () => {
   const router = useRouter();
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [katakana, setKatakana] = useState(false);
+  const [changed, setChanged] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const fetchCandidates = async () => {
@@ -145,6 +146,7 @@ const WordSelector = () => {
     } catch (e: any) {
       console.error(e);
     }
+    setChanged(false);
   };
 
   const sendEval = async () => {
@@ -161,10 +163,12 @@ const WordSelector = () => {
     } catch (e: any) {
       console.error(e);
     }
+    setChanged(false);
   };
 
   const onClickEval = (word: string, score: number) => {
     setCandidates((prev) => prev.map((c) => c.word == word ? { ...c, score } : c));
+    setChanged(true);
   };
 
   useEffect(() => {
@@ -216,7 +220,7 @@ const WordSelector = () => {
               size="large"
               color="primary"
               variant="contained"
-              disabled={isPending}
+              disabled={isPending || !changed}
               onClick={() => startTransition(sendEval)}
             >
               送信
