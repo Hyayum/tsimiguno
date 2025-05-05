@@ -83,7 +83,7 @@ export default function Home() {
         <Grid container spacing={2} size={12}>
           <Grid size={12}>
             <Typography variant="h5">
-              Let's ペユドチ
+              Let&#39;s ペユドチ
             </Typography>
             <List dense>
               <ListItem>
