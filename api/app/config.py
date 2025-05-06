@@ -9,3 +9,4 @@ db_name = "tsimiguno"
 users_collection_name = "users"
 words_collection_name = "words"
 candidates_count = 10
+ui_origin = os.getenv("UI_ORIGIN")

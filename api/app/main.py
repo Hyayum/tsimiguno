@@ -5,14 +5,14 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as grequests
 from . import mongo
 from . import config
-from .letters import generate_word, to_disp_word
+from .letters import generate_word, to_disp_word, is_valid_word
 from .learn import pick_candidates, create_model
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[config.ui_origin],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -47,6 +47,7 @@ def get_candidates(user: dict = Depends(get_current_user)):
 
 @app.post("/eval")
 def update_model(words: dict[str, float], user: dict = Depends(get_current_user)):
+    words = {k:v for k,v in words.items() if is_valid_word(k)}
     user_id = user["sub"]
     all_words = {**mongo.get_all_words(user_id), **words}
     if len(set(words.values())) > 1:

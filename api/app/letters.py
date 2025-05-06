@@ -168,6 +168,13 @@ def parse_word(word):
         raise Exception(f"letter not found: {word}")
     return parsed_letters
 
+def is_valid_word(word):
+    try:
+        parse_word(word)
+        return True
+    except:
+        return False
+
 def generate_word(min_length=3, max_length=8):
     lengths = list(range(min_length, max_length + 1))
     length = random.choices(lengths, weights=[0.2 if l in [min_length, max_length] else 1 for l in lengths])[0]
